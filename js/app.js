@@ -25,7 +25,9 @@ Enemy.prototype.render = function() {
 var Player = function() {
     this.sprite = 'images/char-boy.png';
     this.x = 200;
-    this.y = 400;
+    this.y = 390;
+    this.score = 0;
+
 };
 
 // Update the player's position according to pressed arrow keys
@@ -40,9 +42,34 @@ Player.prototype.render = function() {
 
 // Change the player's position according to pressed arrow keys 
 Player.prototype.handleInput = function(keyPressed) {
-    // moving logic
+    if (keyPressed == 'up') {
+        // row hight = 83 see engine.js
+        this.y = this.y - 83;
+        if (this.y < 0) {
+            // Success.  Player jumped into water. Start again.
+            this.y = 390;
+            this.x = 200;
+            this.score += 10;
+            console.log(this.score);
+        };
+    } else if (keyPressed == 'down') {
+        this.y = this.y + 83;
+        if (this.y > 390) {
+            this.y = 390;
+        };
+    } else if (keyPressed == 'left') {
+        // column width = 100 see engine.js
+        this.x = this.x - 100;
+        if (this.x < 0) {
+            this.x = 0;
+        };
+    } else if (keyPressed == 'right') {
+        this.x = this.x + 100;
+        if (this.x > 400) {
+            this.x = 400;
+        };
+    };
 };
-
 // Now instantiate your objects.
 
 // Place all enemy objectsvar allEnemies = []; in an array called allEnemies
