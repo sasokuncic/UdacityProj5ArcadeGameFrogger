@@ -6,6 +6,8 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.x = 0;
+    this.speed = Math.floor(Math.random() * 100 + 100);
 };
 
 // Update the enemy's position, required method for game
@@ -14,6 +16,11 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x = this.x + (dt * this.speed);
+    if (this.x > 400) {
+        this.x = 0;
+        this.speed = Math.floor(Math.random() * 100 + 100);
+    };
 };
 
 // Draw the enemy on the screen, required method for game
@@ -70,11 +77,16 @@ Player.prototype.handleInput = function(keyPressed) {
         };
     };
 };
+
 // Now instantiate your objects.
 
 // Place all enemy objectsvar allEnemies = []; in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [];
+for (var stoneRaw = 0; stoneRaw < 3; stoneRaw++) {
+    allEnemies.push(new Enemy());
+    allEnemies[stoneRaw].y = stoneRaw * 83 + 61;
+};
 
 // Instantiate the player's object.
 const player = new Player();
@@ -88,6 +100,5 @@ document.addEventListener('keyup', function(e) {
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });
