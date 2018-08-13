@@ -1,94 +1,140 @@
-// Enemies our player must avoid
-var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
+/**
+* @description Arcade Game Frogger
+* @description Udacity FEWD project
+* @description Author: Sašo Kunčič
+*/
 
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+// Globals
+const PLAYER_STARTING_X = 200;
+const PLAYER_STARTING_Y = 390;
+const ENEMY_WIDTH = 80;
+const ENEMY_HEIGHT = 60;
+// row hight = 83 see engine.js
+const RAW_HEIGHT = 83;
+// column width = 100 see engine.js
+const COLUMN_WIDTH = 100;
+
+// Statistic
+let gameCollisions = 0;
+let gameScore = 0;
+
+/**
+* @description Enemies class our 
+* @description Player must avoid collision with them
+*/
+var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
     this.speed = Math.floor(Math.random() * 100 + 100);
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+/**
+ * @description Update the enemy's position
+ * @description When an enemy collides with the player, the game is reset.
+ * @param {dt} dt a time delta between ticks
+ */
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    this.x = this.x + (dt * this.speed);
+    this.x += dt * this.speed;
     if (this.x > 400) {
         this.x = 0;
         this.speed = Math.floor(Math.random() * 100 + 100);
     };
+    /* If the horizontal distance between an enemy and the player is less
+     * than enemy width or the vertical distance is less than enemy height,
+     * there was a collision between the enemy and the player.
+     * Reference: https://www.w3schools.com/graphics/game_obstacles.asp
+     */
+    if (Math.abs(Math.floor(player.x) - Math.floor(this.x)) <= ENEMY_WIDTH &&
+       Math.abs(Math.floor(player.y) - Math.floor(this.y)) <= ENEMY_HEIGHT) {
+        //gameCollisions +=10;
+        //console.log('Collisions: ' + gameCollisions);
+        //if (gameCollisions > gameScore) {
+            // new game
+            //alert('Score:<'+ gameScore + '> Collisions:<'+ gameCollisions + '>' + 'Gameover.');
+            window.location.reload();
+        //}
+    }
 };
 
-// Draw the enemy on the screen, required method for game
+/**
+ * @description Draw the enemy on the screen
+ */
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Player who have to avoid enemies and jump into the water
+/**
+* @description Player class
+* @description Have to closs bricks with enemies and jump into the water
+*/
 var Player = function() {
     this.sprite = 'images/char-boy.png';
-    this.x = 200;
-    this.y = 390;
+    this.x = PLAYER_STARTING_X;
+    this.y = PLAYER_STARTING_Y;
     this.score = 0;
-
 };
 
+/**
+ * @description Update the playser's position
+ * @description Required by game engine. Without functionality. 
+ */
 // Update the player's position according to pressed arrow keys
 Player.prototype.update = function() {
-    // TODO check for the collison
 };
 
+/**
+ * @description Render the playser's position
+ * @param {dt} dt a time delta between ticks
+ */
 // Draw the player on the screen
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+/**
+ * @description Update the player's position
+ * @description Player is using arrow keys to move.
+ * @param {keyPressed} key pressed
+ */
 // Change the player's position according to pressed arrow keys 
 Player.prototype.handleInput = function(keyPressed) {
     if (keyPressed == 'up') {
-        // row hight = 83 see engine.js
-        this.y = this.y - 83;
-        if (this.y < 0) {
-            // Success.  Player jumped into water. Start again.
-            this.y = 390;
-            this.x = 200;
-            this.score += 10;
-            console.log(this.score);
-        };
+        if (this.y < RAW_HEIGHT) {
+            // Success.  Player jumped into water. Start again. 
+            setTimeout(function () {
+                player.y = PLAYER_STARTING_Y;
+                player.x = PLAYER_STARTING_X;
+                gameScore += 10;
+                console.log('Score: ' + gameScore);
+            }, 200);
+        } 
+        this.y -= RAW_HEIGHT;
     } else if (keyPressed == 'down') {
-        this.y = this.y + 83;
-        if (this.y > 390) {
-            this.y = 390;
+        this.y += RAW_HEIGHT;
+        if (this.y > PLAYER_STARTING_Y) {
+            this.y = PLAYER_STARTING_Y;
         };
     } else if (keyPressed == 'left') {
-        // column width = 100 see engine.js
-        this.x = this.x - 100;
+        this.x -= COLUMN_WIDTH;
         if (this.x < 0) {
             this.x = 0;
         };
     } else if (keyPressed == 'right') {
-        this.x = this.x + 100;
+        this.x += COLUMN_WIDTH;
         if (this.x > 400) {
             this.x = 400;
         };
     };
 };
 
-// Now instantiate your objects.
-
-// Place all enemy objectsvar allEnemies = []; in an array called allEnemies
-// Place the player object in a variable called player
+// Instances of enemies
 const allEnemies = [];
 for (var stoneRaw = 0; stoneRaw < 3; stoneRaw++) {
     allEnemies.push(new Enemy());
-    allEnemies[stoneRaw].y = stoneRaw * 83 + 61;
+    allEnemies[stoneRaw].y = stoneRaw * RAW_HEIGHT + 61;
 };
 
-// Instantiate the player's object.
+// Instances of player's
 const player = new Player();
 
 // This listens for key presses and sends the keys to your
