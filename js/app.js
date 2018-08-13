@@ -15,7 +15,6 @@ const RAW_HEIGHT = 83;
 const COLUMN_WIDTH = 100;
 
 // Statistic
-let gameCollisions = 0;
 let gameScore = 0;
 
 /**
@@ -42,17 +41,12 @@ Enemy.prototype.update = function(dt) {
     /* If the horizontal distance between an enemy and the player is less
      * than enemy width or the vertical distance is less than enemy height,
      * there was a collision between the enemy and the player.
-     * Reference: https://www.w3schools.com/graphics/game_obstacles.asp
+     * Reference: https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
      */
     if (Math.abs(Math.floor(player.x) - Math.floor(this.x)) <= ENEMY_WIDTH &&
        Math.abs(Math.floor(player.y) - Math.floor(this.y)) <= ENEMY_HEIGHT) {
-        //gameCollisions +=10;
-        //console.log('Collisions: ' + gameCollisions);
-        //if (gameCollisions > gameScore) {
-            // new game
-            //alert('Score:<'+ gameScore + '> Collisions:<'+ gameCollisions + '>' + 'Gameover.');
+            alert('OOOps. Be carreful! Game Over');
             window.location.reload();
-        //}
     }
 };
 
@@ -78,7 +72,6 @@ var Player = function() {
  * @description Update the playser's position
  * @description Required by game engine. Without functionality. 
  */
-// Update the player's position according to pressed arrow keys
 Player.prototype.update = function() {
 };
 
@@ -86,9 +79,12 @@ Player.prototype.update = function() {
  * @description Render the playser's position
  * @param {dt} dt a time delta between ticks
  */
-// Draw the player on the screen
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.font = '24px Arial';
+    //ctx.lineWidth = 5;
+    ctx.fillStyle = 'yellow';
+    ctx.fillText('Score: '+ gameScore, 28, 570);
 };
 
 /**
@@ -96,7 +92,6 @@ Player.prototype.render = function() {
  * @description Player is using arrow keys to move.
  * @param {keyPressed} key pressed
  */
-// Change the player's position according to pressed arrow keys 
 Player.prototype.handleInput = function(keyPressed) {
     if (keyPressed == 'up') {
         if (this.y < RAW_HEIGHT) {
@@ -127,14 +122,14 @@ Player.prototype.handleInput = function(keyPressed) {
     };
 };
 
-// Instances of enemies
+// Create instances of enemies
 const allEnemies = [];
 for (var stoneRaw = 0; stoneRaw < 3; stoneRaw++) {
     allEnemies.push(new Enemy());
     allEnemies[stoneRaw].y = stoneRaw * RAW_HEIGHT + 61;
 };
 
-// Instances of player's
+// Create player's instance
 const player = new Player();
 
 // This listens for key presses and sends the keys to your
