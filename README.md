@@ -1,17 +1,22 @@
 frontend-nanodegree-arcade-game
 ===============================
-NOTE: This first revision is the copy of initial [udacity FEND arcade game repository](https://github.com/udacity/frontend-nanodegree-arcade-game).
+## Game Overview
+The player have to pass stones and jump to the water to get points. He have to avoid enemies. At every collision game is finished. Player moves by using arrow keys on the keyboard.
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+## Start playing
++ [Online](https://sasokuncic.github.io/UdacityProj5ArcadeGameFrogger/)
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## Game implementation background
+This classical arcade game [Frogger](https://en.wikipedia.org/wiki/Frogger) was implemented as a part of Udacity FEWD Nanodegree course to get experiences in a **object-oriented** programming. The game's framework was prepared to help students. [See repository](https://github.com/udacity/frontend-nanodegree-arcade-game).
 
 ## Implementation Steps
 + [x] Udacity template
-+ [x] Solved warnings in the Web Development Tools > Console.
++ [x] Solved warnings in the Web Development Tools Console.
 + [x] Player movements
 + [x] Enemies movements
-+ [ ] Collision detection
++ [x] Collision detection
++ [x] Score display
 
-## Arcade Game on Github pages
-+ [Online](https://sasokuncic.github.io/UdacityProj5ArcadeGameFrogger/)
+## Additional references
++ HTML Game at [w3schools.com](https://www.w3schools.com/graphics/game_intro.asp)
++ 2D breakout game using pure JavaScript at [MDN](https://developer.mozilla.org/en-US/docs/Games/Tutorials/2D_Breakout_game_pure_JavaScript)
